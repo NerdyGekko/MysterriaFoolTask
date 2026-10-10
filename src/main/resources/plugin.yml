@@ -1,0 +1,6 @@
+name: Grafting
+version: '${version}'
+description: '${description}'
+main: io.github.nerdygekko.grafting.GraftingPlugin
+api-version: '26.2'
+author: Riley
