@@ -3,10 +3,19 @@ package io.github.nerdygekko.grafting.ability.enchant;
 import io.github.nerdygekko.grafting.ability.Ability;
 import io.github.nerdygekko.grafting.ability.AbilityType;
 import io.github.nerdygekko.grafting.ability.GraftMode;
-import io.github.nerdygekko.grafting.util.Feedback;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
+/**
+ * Opens a menu that grafts the enchantments from one item onto another.
+ */
 public final class EnchantGraft implements Ability {
+
+    private final Plugin plugin;
+
+    public EnchantGraft(Plugin plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public AbilityType type() {
@@ -15,8 +24,7 @@ public final class EnchantGraft implements Ability {
 
     @Override
     public boolean use(Player player, GraftMode mode) {
-        // TODO: Phase 2 - enchantment merging GUI
-        Feedback.fail(player, "The Enchantment Graft isn't built yet");
-        return false;
+        new EnchantGraftMenu(plugin, player).open();
+        return true;
     }
 }
