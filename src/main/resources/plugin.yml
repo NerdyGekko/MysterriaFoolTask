@@ -3,4 +3,38 @@ version: '${version}'
 description: '${description}'
 main: io.github.nerdygekko.grafting.GraftingPlugin
 api-version: '26.2'
-author: Riley
+author: NerdyGekko
+
+permissions:
+  grafting.*:
+    description: All Grafting permissions
+    default: op
+    children:
+      grafting.use.*: true
+      grafting.give: true
+      grafting.reload: true
+  grafting.use.*:
+    description: Use every grafting item
+    default: op
+    children:
+      grafting.use.location: true
+      grafting.use.time: true
+      grafting.use.enchant: true
+  grafting.use.location:
+    description: Use the Location Graft item
+    default: op
+  grafting.use.time:
+    description: Use the Time Graft item
+    default: op
+  grafting.use.enchant:
+    description: Use the Enchantment Graft item
+    default: op
+  grafting.give:
+    description: Use /graft give
+    default: op
+  grafting.reload:
+    description: Use /graft reload
+    default: op
+  grafting.cooldown.bypass:
+    description: Ignore ability cooldowns
+    default: false

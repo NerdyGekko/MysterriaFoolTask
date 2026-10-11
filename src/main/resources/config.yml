@@ -1,0 +1,20 @@
+# Seconds before an ability can be used again after a successful graft.
+# Players with grafting.cooldown.bypass skip cooldowns.
+cooldowns:
+  location: 10
+  time: 5
+  enchant: 0
+
+# How far away (in blocks) a player can target a block or entity by looking at it.
+target-range: 30
+
+location:
+  # Furthest a target can be from your anchor, in blocks. 0 means no limit.
+  max-anchor-distance: 500
+  # Whether the Location Graft can move other players, not just mobs and yourself.
+  allow-player-targets: true
+  area:
+    # Radius of the area in blocks (at least 2). It reaches from the bottom of the world to the top.
+    radius: 8
+    # How long the area lasts, in seconds.
+    duration: 15
