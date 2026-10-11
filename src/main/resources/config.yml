@@ -13,3 +13,8 @@ location:
   max-anchor-distance: 500
   # Whether the Location Graft can move other players, not just mobs and yourself.
   allow-player-targets: true
+  area:
+    # Radius of the area in blocks (at least 2). It reaches from the bottom of the world to the top.
+    radius: 8
+    # How long the area lasts, in seconds.
+    duration: 15

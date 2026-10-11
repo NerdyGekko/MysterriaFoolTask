@@ -18,7 +18,7 @@ public enum AbilityType {
             Material.RECOVERY_COMPASS,
             "Ties a target to a place chosen in advance.",
             List.of(GraftMode.SINGLE, GraftMode.AREA),
-            List.of("Right-click: graft", "Sneak + right-click: change mode", "Sneak + left-click: set anchor")
+            List.of("Right-click: graft", "Sneak + right-click: change mode", "Sneak + left-click: set anchor / end area")
     ),
     TIME(
             "Time Graft",

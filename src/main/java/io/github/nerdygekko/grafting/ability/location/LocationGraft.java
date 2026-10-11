@@ -21,16 +21,23 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * Ties a target to a place chosen in advance. Sneak + left-click sets the anchor, and right-click in
- * Single Target mode moves the entity the player is looking at (or the player) to it.
+ * Ties a target to a place chosen in advance.
+ * <ul>
+ *     <li>Single Target: sneak + left-click sets the anchor, and right-click moves the entity the player
+ *     is looking at (or the player) to it.</li>
+ *     <li>Area: right-click grafts the edges of the space around the player together for a while (see
+ *     {@link GraftArea}), and sneak + left-click ends it early.</li>
+ * </ul>
  */
 public final class LocationGraft implements Ability {
 
     private final Plugin plugin;
+    private final AreaGraftManager areas;
     private final NamespacedKey anchorKey;
 
-    public LocationGraft(Plugin plugin) {
+    public LocationGraft(Plugin plugin, AreaGraftManager areas) {
         this.plugin = plugin;
+        this.areas = areas;
         this.anchorKey = new NamespacedKey(plugin, "anchor");
     }
 
@@ -41,6 +48,14 @@ public final class LocationGraft implements Ability {
 
     @Override
     public void useAlternate(Player player, GraftMode mode) {
+        if (mode == GraftMode.AREA) {
+            if (areas.end(player.getUniqueId())) {
+                Feedback.success(player, "You ended your area");
+            } else {
+                Feedback.fail(player, "You don't have an area active");
+            }
+            return;
+        }
         Location anchor = player.getLocation();
         saveAnchor(player, anchor);
         effect(anchor, Particle.END_ROD);
@@ -50,12 +65,19 @@ public final class LocationGraft implements Ability {
 
     @Override
     public boolean use(Player player, GraftMode mode) {
-        if (mode == GraftMode.AREA) {
-            // TODO: Phase 3b - area wrap
-            Feedback.fail(player, "Area grafting isn't built yet");
+        return mode == GraftMode.AREA ? graftArea(player) : graftSingle(player);
+    }
+
+    private boolean graftArea(Player player) {
+        if (areas.hasArea(player)) {
+            Feedback.fail(player, "You already have an area active (sneak + left-click to end it)");
             return false;
         }
-        return graftSingle(player);
+        double radius = Math.max(2, plugin.getConfig().getDouble("location.area.radius", 8));
+        int durationTicks = Math.max(1, plugin.getConfig().getInt("location.area.duration", 15)) * 20;
+        int seconds = areas.start(player, radius, durationTicks);
+        Feedback.success(player, String.format("The edges of this space are grafted together for %ds", seconds));
+        return true;
     }
 
     private boolean graftSingle(Player player) {

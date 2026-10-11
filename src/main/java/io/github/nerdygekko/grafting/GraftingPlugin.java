@@ -4,6 +4,7 @@ import io.github.nerdygekko.grafting.ability.AbilityManager;
 import io.github.nerdygekko.grafting.ability.CooldownManager;
 import io.github.nerdygekko.grafting.ability.enchant.EnchantGraft;
 import io.github.nerdygekko.grafting.ability.enchant.EnchantGraftMenu;
+import io.github.nerdygekko.grafting.ability.location.AreaGraftManager;
 import io.github.nerdygekko.grafting.ability.location.LocationGraft;
 import io.github.nerdygekko.grafting.ability.time.TimeGraft;
 import io.github.nerdygekko.grafting.command.GraftCommand;
@@ -23,14 +24,16 @@ public final class GraftingPlugin extends JavaPlugin {
         saveDefaultConfig();
 
         GraftItems items = new GraftItems(this);
+        AreaGraftManager areas = new AreaGraftManager(this);
         AbilityManager abilities = new AbilityManager(new CooldownManager(this), List.of(
-                new LocationGraft(this),
+                new LocationGraft(this, areas),
                 new TimeGraft(this),
                 new EnchantGraft(this)
         ));
 
         getServer().getPluginManager().registerEvents(new GraftItemListener(items, abilities), this);
         getServer().getPluginManager().registerEvents(new EnchantGraftMenuListener(this), this);
+        getServer().getPluginManager().registerEvents(areas, this);
         getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, event ->
                 event.registrar().register(GraftCommand.create(this, items), "Grafting abilities"));
     }
