@@ -24,7 +24,7 @@ public final class GraftingPlugin extends JavaPlugin {
 
         GraftItems items = new GraftItems(this);
         AbilityManager abilities = new AbilityManager(new CooldownManager(this), List.of(
-                new LocationGraft(),
+                new LocationGraft(this),
                 new TimeGraft(this),
                 new EnchantGraft(this)
         ));

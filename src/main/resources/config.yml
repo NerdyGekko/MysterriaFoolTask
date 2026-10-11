@@ -7,3 +7,9 @@ cooldowns:
 
 # How far away (in blocks) a player can target a block or entity by looking at it.
 target-range: 30
+
+location:
+  # Furthest a target can be from your anchor, in blocks. 0 means no limit.
+  max-anchor-distance: 500
+  # Whether the Location Graft can move other players, not just mobs and yourself.
+  allow-player-targets: true
